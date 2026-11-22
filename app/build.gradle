@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion '30.0.3'
+    namespace = 'org.shadowice.flocke.andotp'
+    compileSdk = 35
+    buildToolsVersion = '35.0.0'
 
     defaultConfig {
         applicationId "org.shadowice.flocke.andotp"
-        minSdkVersion 22
-        targetSdkVersion 30
-        versionCode 39
-        versionName "0.9.0.1"
+        minSdk 22
+        targetSdk 30
+        versionCode 40
+        versionName "0.9.0.2"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -21,15 +22,16 @@ android {
         debug {
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
-            testCoverageEnabled = true
+            enableAndroidTestCoverage = true
+            enableUnitTestCoverage = true
 
-            tasks.withType(JavaCompile) {
+            tasks.withType(JavaCompile).configureEach {
                 options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
             }
         }
     }
-    lintOptions {
-        abortOnError false
+    lint {
+        abortOnError = false
     }
     buildFeatures {
         dataBinding = true
@@ -46,7 +48,7 @@ android {
     }
     compileOptions {
         // Flag to enable support for the new language APIs
-        coreLibraryDesugaringEnabled true
+        coreLibraryDesugaringEnabled = true
 
         // Sets Java compatibility to Java 8
         sourceCompatibility JavaVersion.VERSION_1_8

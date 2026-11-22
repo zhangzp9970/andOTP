@@ -42,6 +42,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.provider.DocumentsContract;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewStub;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -123,7 +124,8 @@ public class SettingsActivity extends BackgroundTaskActivity<ChangeEncryptionTas
         super.onSaveInstanceState(outState);
 
         outState.putBoolean(Constants.EXTRA_SETTINGS_ENCRYPTION_CHANGED, encryptionChanged);
-        outState.putByteArray(Constants.EXTRA_SETTINGS_ENCRYPTION_KEY, encryptionKey.getEncoded());
+        if (encryptionKey != null)
+            outState.putByteArray(Constants.EXTRA_SETTINGS_ENCRYPTION_KEY, encryptionKey.getEncoded());
     }
 
     public void finishWithResult() {
@@ -187,7 +189,9 @@ public class SettingsActivity extends BackgroundTaskActivity<ChangeEncryptionTas
                     (settings.getAndroidBackupServiceEnabled() ? "enabled" : "disabled"));
 
             int message = settings.getAndroidBackupServiceEnabled() ? R.string.settings_toast_android_sync_enabled : R.string.settings_toast_android_sync_disabled;
-            Snackbar.make(fragment.getView(), message, BaseTransientBottomBar.LENGTH_SHORT).show();
+            View settingsView = fragment.getView();
+            if (settingsView != null)
+                Snackbar.make(settingsView, message, BaseTransientBottomBar.LENGTH_SHORT).show();
         }
 
         fragment.updateAutoBackup();
